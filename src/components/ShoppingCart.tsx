@@ -11,7 +11,7 @@ interface IShoppingItem {
 const shoppingItems: Array<IShoppingItem> = [
   {
     id: 1,
-    name: "gigantické dildo",
+    name: "kostlán",
     price: 25000
   },
   {
@@ -53,7 +53,7 @@ const reducer = (state: Array<IShoppingItem>, action: ActionType) => {
     case "DELETE":
       return state.filter(x => x.id !== action.id);
     case "UPDATENAME":
-      return state;
+      return state.map(item => item.id === action.id ? { ...item, name: action.name } : item);
     default:
       return state;
   }
@@ -64,8 +64,13 @@ export const ShoppingCart: React.FC = () => {
   const inputName = useRef<HTMLInputElement>(null);
   const inputPrice = useRef<HTMLInputElement>(null);
 
+  const inputNewName = useRef<HTMLInputElement>(null);
+  const inputId = useRef<HTMLInputElement>(null);
+
   const inputNameId = useId();
   const inputPriceId = useId();
+  const inputNewNameId = useId();
+  const inputIdId = useId();
 
   const data = useContext(ThemeContext);
   return (
@@ -88,15 +93,32 @@ export const ShoppingCart: React.FC = () => {
         }
       </div>
       <div>
-        <label htmlFor={inputNameId}>Price</label>
-        <input id={inputNameId} type="number" ref={inputPrice}></input>
-        <label htmlFor={inputPriceId}>Name</label>
-        <input id={inputPriceId} type="text" ref={inputName}></input>
-        <button onClick={() => {dispatch({
-          type: "ADD",
-          name: String(inputName?.current?.value),
-          price: Number(inputPrice?.current?.value)
-        })}}>Add</button>
+        <p>Add new item</p>
+        <div>
+          <label htmlFor={inputNameId}>Price</label>
+          <input id={inputNameId} type="number" ref={inputPrice}></input>
+          <label htmlFor={inputPriceId}>Name</label>
+          <input id={inputPriceId} type="text" ref={inputName}></input>
+          <button onClick={() => {dispatch({
+            type: "ADD",
+            name: String(inputName?.current?.value),
+            price: Number(inputPrice?.current?.value)
+          })}}>Add</button>
+        </div>
+      </div>
+      <div>
+        <p>Change name</p>
+        <div>
+          <label htmlFor={inputNewNameId}>Id</label>
+          <input id={inputNewNameId} type="number" ref={inputId}></input>
+          <label htmlFor={inputIdId}>Name</label>
+          <input id={inputIdId} type="text" ref={inputNewName}></input>
+          <button onClick={() => {dispatch({
+            type: "UPDATENAME",
+            name: String(inputNewName?.current?.value),
+            id: Number(inputId?.current?.value)
+          })}}>Update</button>
+        </div>
       </div>
     </div>
   );

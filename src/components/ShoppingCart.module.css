@@ -1,0 +1,19 @@
+.shopping-cart__items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shopping-cart--light {
+  background-color: white;
+  color: black;
+}
+
+.shopping-cart--dark {
+  background-color: black;
+  color: white;
+}
+
+.shopping-cart__item {
+  display: flex;
+  align-items: center;
+}
